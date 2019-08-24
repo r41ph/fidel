@@ -1,20 +1,82 @@
+@import "../../assets/styles/colors.scss";
+@import "../../assets/styles/break-points.scss";
+
+.f-transactions {
+  position: relative;
+
+  .f-transactions_table--scroll {
+    overflow-x: none;
+    @media (max-width: $bk-small) {
+      overflow-x: scroll;
+      &:after {
+        content: "";
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: 10%;
+
+        background: linear-gradient(
+          to right,
+          rgba(0, 0, 0, 0) 10%,
+          rgba(0, 0, 0, 0.2)
+        );
+      }
+      &:before {
+        content: "";
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 10%;
+
+        background: linear-gradient(
+          to left,
+          rgba(0, 0, 0, 0) 10%,
+          rgba(0, 0, 0, 0.2)
+        );
+      }
+    }
+  }
+}
 .f-transactions_table {
-  display: inline-block;
-  vertical-align: top;
-  max-width: 100%;
-  overflow-x: auto;
+  min-width: $bk-small;
+  width: 100%;
   white-space: nowrap;
   border-spacing: 0;
 
-  &--item,
-  &--head {
-    padding: 10px 5px;
-  }
-
   &--head {
     text-align: left;
+
+    &-item {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      background-color: rgba($color-primary, 0.4);
+      border-right: 2px solid #fff;
+      border-bottom: 2px solid #fff;
+      padding: 10px;
+
+      &:last-of-type {
+        border-right: none;
+      }
+    }
   }
-  @media (min-width: 769px) {
-    overflow-x: none;
+
+  &--body {
+    &-row:nth-child(odd) {
+      background-color: $color-secondary;
+    }
+
+    &-item {
+      padding: 10px;
+      border-right: 2px solid #fff;
+      border-bottom: 2px solid #fff;
+
+      &:last-of-type {
+        border-right: none;
+      }
+    }
   }
 }

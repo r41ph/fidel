@@ -3,13 +3,13 @@ import React from "react";
 const Transaction = props => {
   const { accountId, amount, currency, datetime, cardScheme, cleared } = props;
   return (
-    <tr>
-      <td className="f-transactions_table--item">{accountId}</td>
-      <td className="f-transactions_table--item">{amount}</td>
-      <td className="f-transactions_table--item">{currency}</td>
-      <td className="f-transactions_table--item">{datetime}</td>
-      <td className="f-transactions_table--item">{cardScheme}</td>
-      <td className="f-transactions_table--item">
+    <tr className="f-transactions_table--body-row">
+      <td className="f-transactions_table--body-item">{accountId}</td>
+      <td className="f-transactions_table--body-item">{amount}</td>
+      <td className="f-transactions_table--body-item">{currency}</td>
+      <td className="f-transactions_table--body-item">{datetime}</td>
+      <td className="f-transactions_table--body-item">{cardScheme}</td>
+      <td className="f-transactions_table--body-item">
         {cleared ? "true" : "false"}
       </td>
     </tr>

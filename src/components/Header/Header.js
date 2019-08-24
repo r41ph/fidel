@@ -1,10 +1,12 @@
 import React from "react";
 import "./Header.scss";
+import Logo from "../Logo/Logo";
 
 const Header = () => {
   return (
     <header className="f-header">
-      <span className="f-header__title">Fidel API - Transactions List</span>
+      <Logo />
+      <span className="f-header__title">Transactions</span>
     </header>
   );
 };

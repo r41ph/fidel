@@ -35,31 +35,34 @@ const Transactions = props => {
 
   const renderTransactionsTable = transactions => {
     return (
-      <table className="f-transactions_table">
-        <thead>
-          <tr>
-            <th className="f-transactions_table--head">Account ID</th>
-            <th className="f-transactions_table--head">Amount</th>
-            <th className="f-transactions_table--head">Currency</th>
-            <th className="f-transactions_table--head">Datetime</th>
-            <th className="f-transactions_table--head">Card Scheme</th>
-            <th className="f-transactions_table--head">Cleared</th>
-          </tr>
-        </thead>
-        <tbody>
-          {transactions.map(transaction => (
-            <Transaction
-              key={transaction.accountId}
-              accountId={transaction.accountId}
-              amount={transaction.amount}
-              currency={transaction.currency}
-              datetime={transaction.datetime}
-              cardScheme={transaction.card.scheme}
-              cleared={transaction.cleared}
-            />
-          ))}
-        </tbody>
-      </table>
+      <section className="f-transactions">
+        <div className="f-transactions_table--scroll">
+          <table className="f-transactions_table">
+            <thead className="f-transactions_table--head">
+              <tr>
+                <th className="f-transactions_table--head-item">Account ID</th>
+                <th className="f-transactions_table--head-item">Amount</th>
+                <th className="f-transactions_table--head-item">Currency</th>
+                <th className="f-transactions_table--head-item">Datetime</th>
+                <th className="f-transactions_table--head-item">Card Scheme</th>
+                <th className="f-transactions_table--head-item">Cleared</th>
+              </tr>
+            </thead>
+            <tbody className="f-transactions_table--body">
+              {transactions.map(transaction => (
+                <Transaction
+                  accountId={transaction.accountId}
+                  amount={transaction.amount}
+                  currency={transaction.currency}
+                  datetime={transaction.datetime}
+                  cardScheme={transaction.card.scheme}
+                  cleared={transaction.cleared}
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
     );
   };
 
