@@ -1,32 +1,36 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import "./Transactions.scss";
 import Transaction from "./Transaction";
+import fetchTransactions from "../../utils/fetchTransactions";
+import withInfiniteScroll from "../../hoc/withInfiniteScroll";
 
-const Transactions = () => {
+const Transactions = props => {
+  const { fetchMoreItems } = props;
+  const [transactions, setTransactions] = useState({});
+  const [lastTransaction, setLastTransaction] = useState({});
+
   useEffect(() => {
     getTransactions();
+    console.log("woop");
   }, []);
 
-  const [transactions, setTransactions] = useState({});
-
-  const getTransactions = () => {
-    const programID = "2314f371-39b1-4c80-8040-4144ff1bad09";
-    const secretKey = process.env.REACT_APP_FIDEL_API_SECRET_KEY;
-    const url = `https://api-dev.fidel.uk/v1d/programs/${programID}/transactions`;
-    const headers = {
-      "content-type": "application/json",
-      "fidel-key": `${secretKey}`
+  useEffect(() => {
+    const getMoreTransactions = async () => {
+      const moreTransactions = await fetchTransactions(lastTransaction);
+      console.log("moreTransactions", moreTransactions);
+      // setTransactions({ ...transactions, ...moreTransactions.data.items });
+      // setLastTransaction(moreTransactions.data.last);
     };
-    axios
-      .get(url, { headers })
-      .then(res => {
-        console.log("res", res.data.items);
-        setTransactions(res.data.items);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    if (fetchMoreItems) {
+      getMoreTransactions();
+    }
+  }, [lastTransaction, fetchMoreItems, transactions]);
+
+  const getTransactions = async () => {
+    const transactions = await fetchTransactions();
+    setTransactions(transactions.data.items);
+    setLastTransaction(transactions.data.last);
   };
 
   const renderTransactionsTable = transactions => {
@@ -45,6 +49,7 @@ const Transactions = () => {
         <tbody>
           {transactions.map(transaction => (
             <Transaction
+              key={transaction.accountId}
               accountId={transaction.accountId}
               amount={transaction.amount}
               currency={transaction.currency}
@@ -65,4 +70,4 @@ const Transactions = () => {
   );
 };
 
-export default Transactions;
+export default withInfiniteScroll(Transactions);
