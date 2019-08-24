@@ -11,7 +11,6 @@ const Transactions = () => {
   const [transactions, setTransactions] = useState({});
 
   const getTransactions = () => {
-    console.log("getting transactions add loading!");
     const programID = "2314f371-39b1-4c80-8040-4144ff1bad09";
     const secretKey = process.env.REACT_APP_FIDEL_API_SECRET_KEY;
     const url = `https://api-dev.fidel.uk/v1d/programs/${programID}/transactions`;
