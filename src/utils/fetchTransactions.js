@@ -1,7 +1,7 @@
 import axios from "axios";
 
 /**
- * Performs an api request.
+ * Performs an api request to fetch transactions.
  */
 
 const fetchTransactions = last => {
@@ -12,24 +12,23 @@ const fetchTransactions = last => {
     "content-type": "application/json",
     "fidel-key": `${secretKey}`
   };
-  let url = null;
-  console.log("last", last);
-  console.log("last strg", JSON.stringify(last));
-  if (last) {
-    url = `${baseURL}/${programID}/transactions?start=${JSON.stringify(last)}`;
-    console.log("url", url);
-  } else {
-    url = `${baseURL}/${programID}/transactions`;
-  }
+  const url = `${baseURL}/${programID}/transactions`;
 
   const data = axios
-    .get(url, { headers })
+    .get(
+      url,
+      { headers },
+      {
+        params: {
+          start: JSON.stringify(last)
+        }
+      }
+    )
     .then(res => {
-      console.log("res in fetchTransactions", res);
       return res;
     })
     .catch(error => {
-      console.log("WTF", error);
+      console.log(error);
     });
 
   return data;
