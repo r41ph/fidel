@@ -51,6 +51,7 @@ const Transactions = props => {
             <tbody className="f-transactions_table--body">
               {transactions.map(transaction => (
                 <Transaction
+                  key={transaction.accountId}
                   accountId={transaction.accountId}
                   amount={transaction.amount}
                   currency={transaction.currency}
