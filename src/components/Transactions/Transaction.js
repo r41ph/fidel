@@ -1,9 +1,18 @@
 import React from "react";
 
 const Transaction = props => {
-  const { accountId, amount, currency, datetime, cardScheme, cleared } = props;
+  const {
+    accountId,
+    amount,
+    currency,
+    datetime,
+    cardScheme,
+    cleared,
+    index
+  } = props;
   return (
     <tr className="f-transactions_table--body-row">
+      <td className="f-transactions_table--body-item">{index}</td>
       <td className="f-transactions_table--body-item">{accountId}</td>
       <td className="f-transactions_table--body-item">{amount}</td>
       <td className="f-transactions_table--body-item">{currency}</td>

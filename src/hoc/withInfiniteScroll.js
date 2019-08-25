@@ -1,26 +1,22 @@
 import React, { useEffect, useState } from "react";
 
 const withInfiniteScroll = WrappedComponent => {
-  const WithInfiniteScroll = () => {
+  const WithInfiniteScroll = props => {
     const [fetchMoreItems, setFetchMoreItems] = useState(false);
     useEffect(() => {
       window.addEventListener("scroll", handleInfiniteScroll);
       return () => window.removeEventListener("scroll", handleInfiniteScroll);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
     const handleInfiniteScroll = () => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight
-      ) {
-        setFetchMoreItems(false);
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        setFetchMoreItems(true);
         return;
       }
-      console.log("Fetch more list items!");
-      setFetchMoreItems(true);
+      setFetchMoreItems(false);
     };
 
-    return <WrappedComponent fetchMoreItems={fetchMoreItems} />;
+    return <WrappedComponent fetchMoreItems={fetchMoreItems} {...props} />;
   };
 
   WithInfiniteScroll.displayName = `WithInfiniteScroll(${getDisplayName(

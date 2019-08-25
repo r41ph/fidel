@@ -1,45 +1,54 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 // import axios from "axios";
 import "./Transactions.scss";
 import Transaction from "./Transaction";
 import fetchTransactions from "../../utils/fetchTransactions";
 import withInfiniteScroll from "../../hoc/withInfiniteScroll";
 
-const Transactions = props => {
-  const { fetchMoreItems } = props;
-  const [transactions, setTransactions] = useState({});
-  const [lastTransaction, setLastTransaction] = useState({});
-
-  useEffect(() => {
-    getTransactions();
-    console.log("woop");
-  }, []);
-
-  useEffect(() => {
-    const getMoreTransactions = async () => {
-      const moreTransactions = await fetchTransactions(lastTransaction);
-      console.log("moreTransactions", moreTransactions);
-      // setTransactions({ ...transactions, ...moreTransactions.data.items });
-      // setLastTransaction(moreTransactions.data.last);
+class Transactions extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      transactions: [],
+      lastTransaction: {},
+      fetchMoreItems: false,
+      isLoading: true
     };
-    if (fetchMoreItems) {
-      getMoreTransactions();
-    }
-  }, [lastTransaction, fetchMoreItems, transactions]);
+  }
 
-  const getTransactions = async () => {
-    const transactions = await fetchTransactions();
-    setTransactions(transactions.data.items);
-    setLastTransaction(transactions.data.last);
+  componentDidMount() {
+    this.setState({ isLoading: true });
+    this.getTransactions(this.state.lastTransaction);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.fetchMoreItems !== prevProps.fetchMoreItems &&
+      this.state.isLoading === false &&
+      this.props.fetchMoreItems === true
+    ) {
+      this.getTransactions(this.state.lastTransaction);
+    }
+  }
+
+  getTransactions = async () => {
+    const trans = await fetchTransactions(this.state.lastTransaction);
+    const newList = this.state.transactions.concat(trans.data.items);
+    this.setState({
+      transactions: newList,
+      lastTransaction: trans.data.last,
+      isLoading: false
+    });
   };
 
-  const renderTransactionsTable = transactions => {
+  renderTransactionsTable = transactions => {
     return (
       <section className="f-transactions">
         <div className="f-transactions_table--scroll">
           <table className="f-transactions_table">
             <thead className="f-transactions_table--head">
               <tr>
+                <th className="f-transactions_table--head-item"></th>
                 <th className="f-transactions_table--head-item">Account ID</th>
                 <th className="f-transactions_table--head-item">Amount</th>
                 <th className="f-transactions_table--head-item">Currency</th>
@@ -49,8 +58,9 @@ const Transactions = props => {
               </tr>
             </thead>
             <tbody className="f-transactions_table--body">
-              {transactions.map(transaction => (
+              {transactions.map((transaction, index) => (
                 <Transaction
+                  index={index}
                   key={transaction.accountId}
                   accountId={transaction.accountId}
                   amount={transaction.amount}
@@ -67,11 +77,11 @@ const Transactions = props => {
     );
   };
 
-  return (
-    <>
-      {transactions.length > 0 ? renderTransactionsTable(transactions) : null}
-    </>
-  );
-};
+  render() {
+    return this.state.transactions.length > 0
+      ? this.renderTransactionsTable(this.state.transactions)
+      : "Loading...";
+  }
+}
 
 export default withInfiniteScroll(Transactions);
