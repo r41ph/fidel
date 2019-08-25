@@ -4,6 +4,7 @@ import "./Transactions.scss";
 import Transaction from "./Transaction";
 import fetchTransactions from "../../utils/fetchTransactions";
 import withInfiniteScroll from "../../hoc/withInfiniteScroll";
+import Loading from "../Loading/Loading";
 
 class Transactions extends React.Component {
   constructor(props) {
@@ -17,7 +18,6 @@ class Transactions extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ isLoading: true });
     this.getTransactions(this.state.lastTransaction);
   }
 
@@ -27,6 +27,7 @@ class Transactions extends React.Component {
       this.state.isLoading === false &&
       this.props.fetchMoreItems === true
     ) {
+      this.setState({ isLoading: true });
       this.getTransactions(this.state.lastTransaction);
     }
   }
@@ -78,9 +79,14 @@ class Transactions extends React.Component {
   };
 
   render() {
-    return this.state.transactions.length > 0
-      ? this.renderTransactionsTable(this.state.transactions)
-      : "Loading...";
+    return (
+      <>
+        {this.state.transactions.length > 0
+          ? this.renderTransactionsTable(this.state.transactions)
+          : null}
+        {this.state.isLoading && <Loading />}
+      </>
+    );
   }
 }
 
