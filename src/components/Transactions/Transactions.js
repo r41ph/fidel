@@ -15,10 +15,12 @@ class Transactions extends React.Component {
       fetchMoreItems: false,
       isLoading: true
     };
+    this._isMounted = false;
   }
 
   componentDidMount() {
-    this.getTransactions(this.state.lastTransaction);
+    this._isMounted = true;
+    this._isMounted && this.getTransactions(this.state.lastTransaction);
   }
 
   componentDidUpdate(prevProps) {
@@ -32,14 +34,19 @@ class Transactions extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
   getTransactions = async () => {
     const trans = await fetchTransactions(this.state.lastTransaction);
     const newList = this.state.transactions.concat(trans.data.items);
-    this.setState({
-      transactions: newList,
-      lastTransaction: trans.data.last,
-      isLoading: false
-    });
+    this._isMounted &&
+      this.setState({
+        transactions: newList,
+        lastTransaction: trans.data.last,
+        isLoading: false
+      });
   };
 
   renderTransactionsTable = transactions => {
