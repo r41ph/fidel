@@ -1,0 +1,16 @@
+@import "../../assets/styles/colors.scss";
+
+.f-error {
+  color: #fff;
+  background-color: $color-error;
+  padding: 8px 10px 8px 60px;
+  position: relative;
+  display: block;
+  border-radius: 6px;
+
+  &_icon {
+    width: 20px;
+    position: absolute;
+    left: 20px;
+  }
+}
