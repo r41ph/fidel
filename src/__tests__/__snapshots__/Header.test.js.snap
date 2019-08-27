@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header component matches the snapshop 1`] = `
+<header
+  className="f-header"
+>
+  <img
+    alt="logo"
+    className="App-logo"
+    src="logo.svg"
+  />
+  <span
+    className="f-header__title"
+  >
+    Transactions
+  </span>
+</header>
+`;
