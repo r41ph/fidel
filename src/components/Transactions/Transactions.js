@@ -1,5 +1,5 @@
 import React from "react";
-// import axios from "axios";
+import PropTypes from "prop-types";
 import "./Transactions.scss";
 import Transaction from "./Transaction";
 import fetchTransactions from "../../utils/fetchTransactions";
@@ -7,13 +7,20 @@ import withInfiniteScroll from "../../hoc/withInfiniteScroll";
 import Error from "../Error/Error";
 import Loading from "../Loading/Loading";
 
+const propTypes = {
+  /**
+   * Specifies whether more transactions should be fetch.
+   * it should be true when user scrolls to the end of the page.
+   */
+  fetchMoreItems: PropTypes.boolean
+};
+
 class Transactions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       transactions: [],
       lastTransaction: {},
-      fetchMoreItems: false,
       isLoading: true,
       error: false,
       errorMessage: ""
@@ -25,10 +32,11 @@ class Transactions extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    const { fetchMoreItems } = this.props;
     if (
-      this.props.fetchMoreItems !== prevProps.fetchMoreItems &&
+      fetchMoreItems !== prevProps.fetchMoreItems &&
       this.state.isLoading === false &&
-      this.props.fetchMoreItems === true
+      fetchMoreItems === true
     ) {
       this.setState({ isLoading: true });
       this.getTransactions(this.state.lastTransaction);
@@ -87,16 +95,19 @@ class Transactions extends React.Component {
   };
 
   render() {
+    const { error, errorMessage, transactions, isLoading } = this.state;
     return (
       <>
-        {this.state.transactions.length > 0
-          ? this.renderTransactionsTable(this.state.transactions)
+        {transactions.length > 0
+          ? this.renderTransactionsTable(transactions)
           : null}
-        {!this.state.error && this.state.isLoading && <Loading />}
-        {this.state.error ? <Error message={this.state.errorMessage} /> : null}
+        {!error && isLoading && <Loading />}
+        {error ? <Error message={errorMessage} /> : null}
       </>
     );
   }
 }
+
+Transactions.propTypes = propTypes;
 
 export default withInfiniteScroll(Transactions);

@@ -1,4 +1,42 @@
 import React from "react";
+import PropTypes from "prop-types";
+
+const propTypes = {
+  /**
+   * Sets the transaction account ID
+   */
+  accountId: PropTypes.string,
+
+  /**
+   * Sets the transaction amount
+   */
+  amount: PropTypes.number,
+
+  /**
+   * Sets the transaction currency
+   */
+  currency: PropTypes.string,
+
+  /**
+   * Sets the transaction date
+   */
+  datetime: PropTypes.string,
+
+  /**
+   * Sets the transaction cardScheme
+   */
+  cardScheme: PropTypes.string,
+
+  /**
+   * Sets transaction cleared status
+   */
+  cleared: PropTypes.boolean,
+
+  /**
+   * Sets the table row index for a transaction
+   */
+  index: PropTypes.number
+};
 
 const Transaction = props => {
   const {
@@ -10,6 +48,7 @@ const Transaction = props => {
     cleared,
     index
   } = props;
+
   return (
     <tr className="f-transactions_table--body-row">
       <td className="f-transactions_table--body-item">{index}</td>
@@ -24,5 +63,7 @@ const Transaction = props => {
     </tr>
   );
 };
+
+Transaction.propTypes = propTypes;
 
 export default Transaction;
