@@ -3,7 +3,9 @@
 .f-app-wrapper {
   padding: 20px;
   margin: 0 auto;
-  @media (min-width: $bk-small) {
+  max-width: 100%;
+  @media (min-width: $bk-medium) {
+    width: 1280px;
     max-width: 80%;
   }
 }

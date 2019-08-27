@@ -46,8 +46,10 @@
 .f-transactions_table {
   min-width: $bk-small;
   width: 100%;
-  white-space: nowrap;
   border-spacing: 0;
+  @media (min-width: $bk-medium) {
+    white-space: nowrap;
+  }
 
   &--head {
     text-align: left;
