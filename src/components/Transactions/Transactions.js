@@ -4,6 +4,7 @@ import "./Transactions.scss";
 import Transaction from "./Transaction";
 import fetchTransactions from "../../utils/fetchTransactions";
 import withInfiniteScroll from "../../hoc/withInfiniteScroll";
+import Error from "../Error/Error";
 import Loading from "../Loading/Loading";
 
 class Transactions extends React.Component {
@@ -13,7 +14,9 @@ class Transactions extends React.Component {
       transactions: [],
       lastTransaction: {},
       fetchMoreItems: false,
-      isLoading: true
+      isLoading: true,
+      error: false,
+      errorMessage: ""
     };
   }
 
@@ -33,12 +36,17 @@ class Transactions extends React.Component {
   }
 
   getTransactions = async () => {
-    const trans = await fetchTransactions(this.state.lastTransaction);
-    const newList = this.state.transactions.concat(trans.data.items);
+    const transResponse = await fetchTransactions(this.state.lastTransaction);
+    if (transResponse.status !== 200) {
+      this.setState({ error: true, errorMessage: transResponse });
+      return;
+    }
+    const newList = this.state.transactions.concat(transResponse.data.items);
     this.setState({
       transactions: newList,
-      lastTransaction: trans.data.last,
-      isLoading: false
+      lastTransaction: transResponse.data.last,
+      isLoading: false,
+      error: false
     });
   };
 
@@ -84,7 +92,8 @@ class Transactions extends React.Component {
         {this.state.transactions.length > 0
           ? this.renderTransactionsTable(this.state.transactions)
           : null}
-        {this.state.isLoading && <Loading />}
+        {!this.state.error && this.state.isLoading && <Loading />}
+        {this.state.error ? <Error message={this.state.errorMessage} /> : null}
       </>
     );
   }

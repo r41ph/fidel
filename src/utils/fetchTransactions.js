@@ -28,7 +28,8 @@ const fetchTransactions = last => {
       return res;
     })
     .catch(error => {
-      console.log(error);
+      console.log(JSON.stringify(error, 1, 4));
+      return error.message;
     });
 
   return data;
