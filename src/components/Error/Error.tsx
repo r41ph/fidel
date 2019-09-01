@@ -1,16 +1,15 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { FunctionComponent } from "react";
 import "./Error.scss";
 import info from "../../assets/svg/info.svg";
 
-const propTypes = {
+interface ErrorProps {
   /**
    * The message to be displayed
    */
-  message: PropTypes.string.isRequired
-};
+  message: string
+}
 
-const Error = ({ message }) => {
+const Error:FunctionComponent<ErrorProps> = ({ message }) => {
   return (
     <span className="f-error">
       <img src={info} className="f-error_icon" alt="Error" />
@@ -18,7 +17,5 @@ const Error = ({ message }) => {
     </span>
   );
 };
-
-Error.propTypes = propTypes;
 
 export default Error;

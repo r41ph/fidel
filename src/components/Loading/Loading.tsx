@@ -1,7 +1,7 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import "./Loading.scss";
 
-const Loading = () => {
+const Loading:FunctionComponent<{}> = () => {
   return (
     <div className="f-loading">
       <span className="f-loading_circle"></span>

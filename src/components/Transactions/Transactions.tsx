@@ -1,22 +1,35 @@
 import React from "react";
-import PropTypes from "prop-types";
 import "./Transactions.scss";
-import Transaction from "./Transaction";
+import Transaction from './Transaction';
 import fetchTransactions from "../../utils/fetchTransactions";
 import withInfiniteScroll from "../../hoc/withInfiniteScroll";
 import Error from "../Error/Error";
 import Loading from "../Loading/Loading";
 
-const propTypes = {
+interface TransactionsProps {
   /**
    * Specifies whether more transactions should be fetch.
    * it should be true when user scrolls to the end of the page.
    */
-  fetchMoreItems: PropTypes.boolean
+  fetchMoreItems: boolean
 };
 
-class Transactions extends React.Component {
-  constructor(props) {
+interface lastInterface  {
+  programIdDel?: string,
+  id?: string,
+  time?: string
+}
+
+interface TransactionsState {
+  transactions: any[],
+  lastTransaction: lastInterface,
+  isLoading: boolean,
+  error: boolean,
+  errorMessage: string
+};
+
+class Transactions extends React.Component<TransactionsProps, TransactionsState> {
+  constructor(props: TransactionsProps) {
     super(props);
     this.state = {
       transactions: [],
@@ -28,10 +41,10 @@ class Transactions extends React.Component {
   }
 
   componentDidMount() {
-    this.getTransactions(this.state.lastTransaction);
+    this.getTransactions();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: any) {
     const { fetchMoreItems } = this.props;
     if (
       fetchMoreItems !== prevProps.fetchMoreItems &&
@@ -39,7 +52,7 @@ class Transactions extends React.Component {
       fetchMoreItems === true
     ) {
       this.setState({ isLoading: true });
-      this.getTransactions(this.state.lastTransaction);
+      this.getTransactions();
     }
   }
 
@@ -58,7 +71,7 @@ class Transactions extends React.Component {
     });
   };
 
-  renderTransactionsTable = transactions => {
+  renderTransactionsTable = (transactions: any[]) => {
     return (
       <section className="f-transactions">
         <div className="f-transactions_table--scroll">
@@ -107,7 +120,5 @@ class Transactions extends React.Component {
     );
   }
 }
-
-Transactions.propTypes = propTypes;
 
 export default withInfiniteScroll(Transactions);

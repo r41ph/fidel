@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-const withInfiniteScroll = WrappedComponent => {
-  const WithInfiniteScroll = props => {
+const withInfiniteScroll = (WrappedComponent: any) => {
+  const WithInfiniteScroll = (props: any) => {
     const [fetchMoreItems, setFetchMoreItems] = useState(false);
     useEffect(() => {
       window.addEventListener("scroll", handleInfiniteScroll);
@@ -26,7 +26,7 @@ const withInfiniteScroll = WrappedComponent => {
   return WithInfiniteScroll;
 };
 
-function getDisplayName(WrappedComponent) {
+function getDisplayName(WrappedComponent: any) {
   return WrappedComponent.displayName || WrappedComponent.name || "Component";
 }
 

@@ -1,44 +1,43 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, {FunctionComponent} from "react";
 
-const propTypes = {
+interface TransactionProps {
   /**
    * Sets the transaction account ID
    */
-  accountId: PropTypes.string,
+  accountId: string,
 
   /**
    * Sets the transaction amount
    */
-  amount: PropTypes.number,
+  amount: number,
 
   /**
    * Sets the transaction currency
    */
-  currency: PropTypes.string,
+  currency: string,
 
   /**
    * Sets the transaction date
    */
-  datetime: PropTypes.string,
+  datetime: string,
 
   /**
    * Sets the transaction cardScheme
    */
-  cardScheme: PropTypes.string,
+  cardScheme: string,
 
   /**
    * Sets transaction cleared status
    */
-  cleared: PropTypes.boolean,
+  cleared: boolean,
 
   /**
    * Sets the table row index for a transaction
    */
-  index: PropTypes.number
+  index: number
 };
 
-const Transaction = props => {
+const Transaction:FunctionComponent<TransactionProps> = props => {
   const {
     accountId,
     amount,
@@ -63,7 +62,5 @@ const Transaction = props => {
     </tr>
   );
 };
-
-Transaction.propTypes = propTypes;
 
 export default Transaction;

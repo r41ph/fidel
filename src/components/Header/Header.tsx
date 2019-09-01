@@ -1,8 +1,8 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import "./Header.scss";
 import Logo from "../Logo/Logo";
 
-const Header = () => {
+const Header:FunctionComponent<{}> = () => {
   return (
     <header className="f-header">
       <Logo />
