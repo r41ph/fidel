@@ -10,7 +10,7 @@ interface lastInterface  {
   time?: string
 }
 
-const fetchTransactions = (last: lastInterface = {id: ""}) => {
+const fetchTransactions = (last: lastInterface) => {
   const programID = "2314f371-39b1-4c80-8040-4144ff1bad09";
   const secretKey = process.env.REACT_APP_FIDEL_API_SECRET_KEY;
   const baseURL = "https://api-dev.fidel.uk/v1d/programs";
@@ -24,7 +24,7 @@ const fetchTransactions = (last: lastInterface = {id: ""}) => {
     }
   };
   
-  if(!last.id === false) {
+  if(last.id) {
     options = {
       ...options,
       params: {
